@@ -58,6 +58,7 @@
   "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
   "files.associations": {
     "iostream": "cpp",
-    "a.C": "cpp"
+    "a.C": "cpp",
+    "ostream": "cpp"
   }
 }
