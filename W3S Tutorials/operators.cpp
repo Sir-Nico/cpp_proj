@@ -23,7 +23,11 @@ int main() {
     // Logical operators:
     // && : And (x && y)
     // || : Or (x || y)
-    //  ! : Not (!(4 == 6), this would return true) 
+    //  ! : Not (!(4 == 6), this would return true)
+
+    // Bitwise operators:
+    // >> / >>= : Bitwise shift right (1010 -> 101)
+    // << / <<= : Bitwise shift left  (101 -> 1010)
 
     return 0;
 }

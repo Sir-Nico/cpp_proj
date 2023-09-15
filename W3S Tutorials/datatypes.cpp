@@ -24,7 +24,13 @@ int main() {
     string doubleQuotes = "\nYou claim to be the \"Emperor\"";
     string singleQuote = "\nIt\'s what I do";
     string backslash = "\nC:\\users\\nicol\\prog";
-    cout << doubleQuotes << singleQuote << backslash;
+    cout << doubleQuotes << singleQuote << backslash << endl;
+
+    // Bools
+    bool isCatCute = true;
+    bool isCatAlive = false;
+    cout << isCatCute << endl;
+    cout << isCatAlive << endl;
 
     return 0;
 }
