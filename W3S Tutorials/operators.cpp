@@ -25,4 +25,5 @@ int main() {
     // || : Or (x || y)
     //  ! : Not (!(4 == 6), this would return true) 
 
+    return 0;
 }

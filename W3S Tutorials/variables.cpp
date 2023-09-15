@@ -37,4 +37,6 @@ int main() {
 
     // Constant variable, ergo immutable, read-only, the whole shabang
     const int PI = 3.141592; //...
+
+    return 0;
 }

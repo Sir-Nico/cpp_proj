@@ -57,6 +57,7 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "a.C": "cpp"
   }
 }
