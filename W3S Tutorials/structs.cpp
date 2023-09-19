@@ -20,7 +20,6 @@ int main() {
     cout << struct2.str << ", " << struct2.num << "\n";
 
     myStruct struct3;  // Creating another instance of the struct (Only possible if struct is named e.g myStruct)
-    
 
     return 0;
 }
