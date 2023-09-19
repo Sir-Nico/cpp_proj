@@ -21,8 +21,8 @@ int main() {
     // >= : Greater or equal to (4 >= 6)
     
     // Logical operators:
-    // && : And (x && y)
-    // || : Or (x || y)
+    // && : And (x == y && y > 1)
+    // || : Or (x != y || y < 1)
     //  ! : Not (!(4 == 6), this would return true)
 
     // Bitwise operators:
