@@ -25,10 +25,25 @@ void MyClass::myCoolerMethod(string param) {
     cout << param << "\n";
 }
 
+class encapsulatedClass {
+    private:
+        int privAttribute;  // Private Attribute
+    public:
+        // Setter Function
+        void setAttribute(int x) {
+            privAttribute = x;
+        }
+        // Getter Function
+        int getAttribute() {
+            return privAttribute;
+        }
+};
+
 int main() {
     // Declaring an object is the same as declaring any other variable, but with the class as datatype
     MyClass myObj("Unfunny.", 68);
     MyClass myOtherObj("Unfunny.", 68);
+    encapsulatedClass encapObj;
 
     // Assigning new values to the object's properties
     myObj.myString = "Funny.";
@@ -45,8 +60,12 @@ int main() {
     myObj.myCoolerMethod("Messirve");
     
     // cout << myObj;  // This is not allowed >:(
-    cout << &myObj;  // This is though :)
+    cout << &myObj << "\n";  // This is though :)
     // ^Gets the memory address of the object
+
+    // Setting a private attribute
+    encapObj.setAttribute(51);
+    cout << encapObj.getAttribute() << "\n";
 
     return 0;
 }
