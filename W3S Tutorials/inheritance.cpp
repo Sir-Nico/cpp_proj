@@ -5,6 +5,9 @@ using namespace std;
 // Base class
 class Vehicle {
     public:
+        void vroomVroom() {
+            cout << "Nyooommm \n";
+        }
         string brand = "Ford";
         void honk() {
             cout << "Tuut, tuut! \n" ;
@@ -16,6 +19,9 @@ class Vehicle {
 // Derived class
 class Car: public Vehicle {  // Class Car inherits from Vehicle
     public:
+        void vroomVroom() {  // Overriding the vroomVroom method from Vehicle class, this is called polymorphism
+            cout << "Vrooom vrooom \n";
+        }
         string model = "Mustang";
         string getString() {  // Getter function for the protected attribute from Vehicle class
             return protectedString;
@@ -36,11 +42,15 @@ class CarCrash: public Car, public OtherCar {
 };
 
 int main() {
+    Vehicle truck;
     Car myCar;
     CarCrash kaboom;
     myCar.honk();  // myCar has the methods and attributes of the Vehicle class because of the inheritance
     cout << myCar.brand + " " + myCar.model << "\n";
     cout << myCar.getString() << "\n";
     cout << kaboom.model + ", " + kaboom.otherModel + ", Destroyed Cars: " << kaboom.carsDestroyed << "\n";
+    truck.vroomVroom();
+    myCar.vroomVroom();
+
     return 0;
 }
