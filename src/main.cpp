@@ -1,3 +1,7 @@
+  //======================================//
+ // Shamelessly copied from the internet //
+//======================================//
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
