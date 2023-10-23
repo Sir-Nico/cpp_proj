@@ -1,6 +1,6 @@
 # C++ Project
 
-~~C++ Learning~~ (done with that) -> **OpenGL Stuff**
+~~C++ Learning~~ (done with that) -> **OpenGL Learning** -> OpenGL Stuff
 
 ## The important bits
 ### Folders

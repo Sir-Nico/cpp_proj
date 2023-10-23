@@ -14,6 +14,8 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+unsigned int colourChange = 0;
+
 int main()
 {
     // glfw: initialize and configure
@@ -57,7 +59,15 @@ int main()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        if (colourChange == 1) {
+            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        } else if (colourChange == 2) {
+            glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+        } else if (colourChange == 3) {
+            glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+        } else {
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        }
         glClear(GL_COLOR_BUFFER_BIT);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -78,6 +88,15 @@ void processInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+        colourChange = 1;
+    } else if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        colourChange = 2;
+    } else if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+        colourChange = 3;
+    } else {
+        colourChange = 0;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
