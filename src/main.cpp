@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -17,7 +18,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(0.8f, 0.9f, 0.46f, 1.0f);\n"
+"   FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
 "}\n\0";
 
 
@@ -34,10 +35,21 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Vertex Coordinates
-    GLfloat vertices[] = {
-        -0.3f, 0.64f, 0.0f,
-        -0.78f, 0.2f, 0.0f,
-        0.5f, -0.31f, 0.0f
+    GLfloat vertices[] = 
+    {
+        -0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f,     // Lower left vertex
+        0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f,      // Lower right vertex
+        0.0f, 0.5f * float(sqrt(3)) * 2 / 3 * 4 / 3, 0.0f,   // Upper vertex
+        -0.5f / 2, 0.5f * float(sqrt(3)) / 6 * 4 / 3, 0.0f,  // Inner left vertex
+        0.5f / 2, 0.5f * float(sqrt(3)) / 6 * 4 / 3, 0.0f,   // Inner right vertex
+        0.0f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f       // Inner lower vertex
+    };
+
+    GLuint indeces[] = 
+    {
+        0, 3, 5,  // Lower left triangle
+        3, 2, 4,  // Lower right triangle
+        5, 4, 1  // Upper triangle
     };
 
     // Window creation
@@ -77,23 +89,28 @@ int main()
     glDeleteShader(fragmentShader);
 
 
-    GLuint VAO, VBO;  // Creating reference values for Vertex Array Object & Vertex Buffer Object
+    GLuint VAO, VBO, EBO;  // Creating reference values for Vertex Array Object & Vertex Buffer Object
 
     // Generating the Vertex Array Object and Vertex Buffer Object
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);  // Makes the reference value the current vertex array through binding 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);  // Bind the buffer object and specifying buffer type
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);  // Adds the verteces as data in the buffer
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+
     // Configures and enables the Vertex Attributes, so that OpenGL can read it properly
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Binding the VBO & VAO to 0 to avoid accidentally tampering with the Objects already created
+    // Binding the VBO & VAO to 0, unbinding the reference objects
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // Clearing the entire window with a navy colour, specified in normalised floats
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -105,9 +122,11 @@ int main()
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
         glUseProgram(shaderProgram);  // Specifying which Shader Program to use
         glBindVertexArray(VAO);  // Binding the VAO so that OpenGL knows to use it
-        glDrawArrays(GL_TRIANGLES, 0, 3);  // Drawing the triangle with the GL_TRIANGLES primitive
+
+        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
         glfwSwapBuffers(window);
 
         glfwPollEvents();  // Processes all events, if not the window will be in a "not responding state"
@@ -116,6 +135,7 @@ int main()
     // Deleting every object created
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
     glDeleteProgram(shaderProgram);
 
     // Terminating stuff B)
