@@ -45,6 +45,7 @@ int main()
         0.0f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f       // Inner lower vertex
     };
 
+    // List of indeces for buffer
     GLuint indeces[] = 
     {
         0, 3, 5,  // Lower left triangle
@@ -89,7 +90,7 @@ int main()
     glDeleteShader(fragmentShader);
 
 
-    GLuint VAO, VBO, EBO;  // Creating reference values for Vertex Array Object & Vertex Buffer Object
+    GLuint VAO, VBO, EBO;  // Creating reference values for Vertex Array Object, Vertex Buffer Object & Element Buffer Object
 
     // Generating the Vertex Array Object and Vertex Buffer Object
     glGenVertexArrays(1, &VAO);
@@ -97,17 +98,18 @@ int main()
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);  // Makes the reference value the current vertex array through binding 
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);  // Bind the buffer object and specifying buffer type
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);  // Adds the verteces as data in the buffer
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);  // Bind Element Buffer
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);  // Adds data to the element buffer
 
     // Configures and enables the Vertex Attributes, so that OpenGL can read it properly
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Binding the VBO & VAO to 0, unbinding the reference objects
+    // Binding the buffers to 0, unbinding the reference objects
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
