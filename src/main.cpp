@@ -3,10 +3,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "../headers/shaderClass.h"
-#include "../headers/VAO.h"
-#include "../headers/VBO.h"
-#include "../headers/EBO.h"
+#include "shaderClass.cpp"
+#include "VAO.cpp"
+#include "VBO.cpp"
+#include "EBO.cpp"
 
 // Vertex Coordinates
 GLfloat vertices[] = 
@@ -58,7 +58,7 @@ int main()
     // Specifying viewport, here the entire window (0,0 to 800,600)
     glViewport(0, 0, 800, 600);
 
-    Shader shaderProgram("default.vert", "default.frag");
+    Shader shaderProgram("../shaders/default.vert", "../shaders/default.frag");
 
     VAO VAO1;
     VAO1.Bind();
