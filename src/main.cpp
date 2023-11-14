@@ -11,12 +11,12 @@
 // Vertex Coordinates
 GLfloat vertices[] = 
 {
-    -0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f,     // Lower left vertex
-    0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f,      // Lower right vertex
-    0.0f, 0.5f * float(sqrt(3)) * 2 / 3 * 4 / 3, 0.0f,   // Upper vertex
-    -0.5f / 2, 0.5f * float(sqrt(3)) / 6 * 4 / 3, 0.0f,  // Inner left vertex
-    0.5f / 2, 0.5f * float(sqrt(3)) / 6 * 4 / 3, 0.0f,   // Inner right vertex
-    0.0f, -0.5f * float(sqrt(3)) / 3 * 4 / 3, 0.0f       // Inner lower vertex
+    -0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f,  // Lower left vertex
+    0.5f,  -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f,  // Lower right vertex
+    0.0f,   0.5f * float(sqrt(3)) * 2 / 3 * 4 / 3, 0.0f, 1.0f, 0.6f,  0.32f,  // Upper vertex
+    -0.25f, 0.5f * float(sqrt(3)) / 6 * 4 / 3,     0.0f, 0.9f, 0.45f, 0.17f,  // Inner left vertex
+    0.25f,  0.5f * float(sqrt(3)) / 6 * 4 / 3,     0.0f, 0.9f, 0.45f, 0.17f,  // Inner right vertex
+    0.0f,  -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f   // Inner lower vertex
 };
 
 // List of indeces for buffer
