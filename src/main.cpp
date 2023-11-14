@@ -2,6 +2,7 @@
 #include <cmath>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stb/stb_image.h>
 
 #include "shaderClass.cpp"
 #include "VAO.cpp"
@@ -9,22 +10,19 @@
 #include "EBO.cpp"
 
 // Vertex Coordinates
-GLfloat vertices[] = 
+GLfloat verteces[] = 
 {
-    -0.5f, -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f,  // Lower left vertex
-    0.5f,  -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f,  // Lower right vertex
-    0.0f,   0.5f * float(sqrt(3)) * 2 / 3 * 4 / 3, 0.0f, 1.0f, 0.6f,  0.32f,  // Upper vertex
-    -0.25f, 0.5f * float(sqrt(3)) / 6 * 4 / 3,     0.0f, 0.9f, 0.45f, 0.17f,  // Inner left vertex
-    0.25f,  0.5f * float(sqrt(3)) / 6 * 4 / 3,     0.0f, 0.9f, 0.45f, 0.17f,  // Inner right vertex
-    0.0f,  -0.5f * float(sqrt(3)) / 3 * 4 / 3,     0.0f, 0.8f, 0.3f,  0.02f   // Inner lower vertex
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // Lower left corner
+    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // Upper left corner
+     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // Upper right corner
+     0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f,  // Lower right corner
 };
 
 // List of indeces for buffer
 GLuint indeces[] = 
 {
-    0, 3, 5,  // Lower left triangle
-    3, 2, 4,  // Lower right triangle
-    5, 4, 1   // Upper triangle
+    0, 2, 1,  // Upper left tri
+    0, 3, 2   // Lower right tri
 };
 
 
@@ -42,7 +40,7 @@ int main()
 
 
     // Window creation
-    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Window", NULL, NULL);  // width, height, title, fullscreen (y/n), idk what the last one does
+    GLFWwindow* window = glfwCreateWindow(800, 800, "OpenGL Window", NULL, NULL);  // width, height, title, fullscreen (y/n), idk what the last one does
     
     // Error handling for the case where the window does not initialise
     if (window == NULL) {
@@ -55,15 +53,15 @@ int main()
 
     gladLoadGL();  // Load GLAD, giving access to its functions
 
-    // Specifying viewport, here the entire window (0,0 to 800,600)
-    glViewport(0, 0, 800, 600);
+    // Specifying viewport, here the entire window (0,0 to 800, 800)
+    glViewport(0, 0, 800, 800);
 
-    Shader shaderProgram("../shaders/default.vert", "../shaders/default.frag");
+    Shader shaderProgram("../resources/shaders/default.vert", "../resources/shaders/default.frag");
 
     VAO VAO1;
     VAO1.Bind();
 
-    VBO VBO1(vertices, sizeof(vertices));
+    VBO VBO1(verteces, sizeof(verteces));
     EBO EBO1(indeces, sizeof(indeces));
 
     // Linking VAO attributes like coords and colours to VAO
@@ -78,12 +76,11 @@ int main()
     // Getting the ID of the "scale" uniform
     GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
-    // Clearing the entire window with a navy colour, specified in normalised floats
-    glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    // Texture
 
-    glClear(GL_COLOR_BUFFER_BIT);  // Clearing and swapping the color buffer bit (makes the changes render)
-    glfwSwapBuffers(window);
-    
+    int imgWidth, imgHeight, colourChannelsNum;
+    unsigned char* bytes = stbi_load("../resources/textures/squarechad.jpg", &imgWidth, &imgHeight, &colourChannelsNum, 0);
+
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -92,11 +89,11 @@ int main()
         shaderProgram.Activate();  // Activates shader program
 
         // Scale the triangles (0 is the default size)
-        glUniform1f(uniID, 0);
+        glUniform1f(uniID, 0.5);
 
         VAO1.Bind();
 
-        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
         glfwSwapBuffers(window);  // Buffer swap :O
 
         glfwPollEvents();  // Processes all events, if not the window will be in a "not responding state"
