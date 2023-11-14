@@ -27,17 +27,21 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);  // Creating Vertex Shader Object and getting its reference
     glShaderSource(vertexShader, 1, &vertexSource, NULL);  // Attaching Vertex Shader Source Code to Vertex Shader Object
     glCompileShader(vertexShader);  // Compiles shader into machine code
+    compileErrors(vertexShader, "VERTEX");
 
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);  // Creating Fragment Shader Object and getting its reference
     // Attaching Fragment Shader Source Code to Fragment Shader Object
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
+    compileErrors(fragmentShader, "FRAGMENT");
+
 
     ID = glCreateProgram();  // Creating Shader Program Object and getting its reference
     // Adding the shaders to the Shader Program
     glAttachShader(ID, vertexShader);
     glAttachShader(ID, fragmentShader);
     glLinkProgram(ID);  // Links all the shaders into the Shader Program
+    compileErrors(ID, "PROGRAM");
 
     // Deleting the original shader objects, as they now are redundant
     glDeleteShader(vertexShader);
@@ -52,4 +56,27 @@ void Shader::Activate()
 void Shader::Delete() 
 {
     glDeleteProgram(ID);  // Specifying which Shader Program to use
+}
+
+void Shader::compileErrors(unsigned int shader, const char* type)
+{
+    GLint hasCompiled;
+    char infoLog[1024];
+    if (type != "PROGRAM")
+    {
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+        if (hasCompiled == GL_FALSE)
+        {
+            glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+            std::cout << "SHADER_COMPILATION_ERROR for: " << type << "\n" << std::endl;
+        }
+    } else
+    {
+        glGetProgramiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+        if (hasCompiled == GL_FALSE)
+        {
+            glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+            std::cout << "SHADER_LINKING_ERROR for: " << type << "\n" << std::endl;
+        }
+    }
 }

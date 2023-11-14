@@ -66,11 +66,17 @@ int main()
     VBO VBO1(vertices, sizeof(vertices));
     EBO EBO1(indeces, sizeof(indeces));
 
+    // Linking VAO attributes like coords and colours to VAO
     VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
     VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+
+    // Unbinding everything to avoid modifying
     VAO1.Unbind();
     VBO1.Unbind();
     EBO1.Unbind();
+
+    // Getting the ID of the "scale" uniform
+    GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     // Clearing the entire window with a navy colour, specified in normalised floats
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -83,12 +89,15 @@ int main()
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shaderProgram.Activate();
+        shaderProgram.Activate();  // Activates shader program
+
+        // Scale the triangles (0 is the default size)
+        glUniform1f(uniID, 0);
 
         VAO1.Bind();
 
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window);  // Buffer swap :O
 
         glfwPollEvents();  // Processes all events, if not the window will be in a "not responding state"
     }
