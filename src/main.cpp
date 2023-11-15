@@ -12,11 +12,11 @@
 
 // Vertex Coordinates
 GLfloat verteces[] = 
-{ //       Coords       /  R     G     B    / 
-    -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,  // Lower left corner
-    -0.5f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,  // Upper left corner
-     0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,  // Upper right corner
-     0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f   // Lower right corner
+{ //       Coords       /  R     G     B    / img coords
+    -0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
+    -0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // Upper left corner
+     0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
+     0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f   // Lower right corner
 };
 
 // List of indeces for buffer
@@ -114,6 +114,7 @@ int main()
 
         // Scale the triangles (0 is the default size)
         glUniform1f(uniID, 0.5);
+
         glBindTexture(GL_TEXTURE_2D, texture);
 
         VAO1.Bind();
