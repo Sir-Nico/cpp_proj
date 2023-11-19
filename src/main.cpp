@@ -4,19 +4,19 @@
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
 
-#include "shaderClass.cpp"
-#include "VAO.cpp"
-#include "VBO.cpp"
-#include "EBO.cpp"
-#include "stb.cpp"
+#include "texture.h"
+#include "shaderClass.h"
+#include "VAO.h"
+#include "VBO.h"
+#include "EBO.h"
 
 // Vertex Coordinates
 GLfloat verteces[] = 
 { //       Coords       /  R     G     B    / img coords
-    -0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
-    -0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // Upper left corner
-     0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
-     0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f   // Lower right corner
+    -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
+    -0.5f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // Upper left corner
+     0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
+     0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f   // Lower right corner
 };
 
 // List of indeces for buffer
@@ -38,7 +38,6 @@ int main()
     
     // Specifying profiles, in this case only the CORE profile, this gives access to only the modern OpenGL functions
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 
     // Window creation
     GLFWwindow* window = glfwCreateWindow(800, 800, "OpenGL Window", NULL, NULL);  // width, height, title, fullscreen (y/n), idk what the last one does
@@ -79,31 +78,8 @@ int main()
     GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
 
     // Texture
-
-    int imgWidth, imgHeight, colourChannelsNum;
-    unsigned char* bytes = stbi_load("../resources/textures/squarechad.jpg", &imgWidth, &imgHeight, &colourChannelsNum, 0);
-
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imgWidth, imgHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bytes);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    stbi_image_free(bytes);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    GLuint tex0Uniform = glGetUniformLocation(shaderProgram.ID, "tex0");
-    shaderProgram.Activate();
-    glUniform1i(tex0Uniform, 0);
-
+	Texture squareChad("../resources/textures/squarechad.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+	squareChad.texUnit(shaderProgram, "tex0", 0);
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -115,7 +91,7 @@ int main()
         // Scale the triangles (0 is the default size)
         glUniform1f(uniID, 0.5);
 
-        glBindTexture(GL_TEXTURE_2D, texture);
+        squareChad.Bind();
 
         VAO1.Bind();
 
@@ -129,7 +105,7 @@ int main()
     VAO1.Delete();
     VBO1.Delete();
     EBO1.Delete();
-    glDeleteTextures(1, &texture);
+    squareChad.Delete();
     shaderProgram.Delete();
     // Terminating stuff B)
     glfwDestroyWindow(window);
