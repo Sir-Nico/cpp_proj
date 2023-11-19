@@ -13,17 +13,26 @@
 // Vertex Coordinates
 GLfloat verteces[] = 
 { //       Coords       /  R     G     B    / img coords
-    -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
+     // SQUARE UNO
+    -0.5f,  0.0f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
     -0.5f,  0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // Upper left corner
-     0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
+     0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
+     0.0f,  0.0f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,  // Lower right corner
+
+     // SQUARE DOS
+     0.0f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Lower left corner
+     0.0f,  0.0f, 0.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // Upper left corner
+     0.5f,  0.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,  // Upper right corner
      0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f   // Lower right corner
 };
 
 // List of indeces for buffer
 GLuint indeces[] = 
 {
-    0, 2, 1,  // Upper left tri
-    0, 3, 2   // Lower right tri
+    0, 2, 1,  // Upper left tri 1
+    0, 3, 2,   // Lower right tri 1
+    4, 6, 5,  // Upper left tri 1
+    4, 7, 6   // Lower right tri 1
 };
 
 
@@ -95,7 +104,7 @@ int main()
 
         VAO1.Bind();
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
+        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);  // Drawing the triangles with the GL_TRIANGLES primitive
         glfwSwapBuffers(window);  // Buffer swap :O
 
         glfwPollEvents();  // Processes all events, if not the window will be in a "not responding state"
